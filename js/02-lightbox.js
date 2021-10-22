@@ -26,6 +26,6 @@ function createItemsMarkup (galleryItems) {
                 return;
                    }                   
                   
-                   let lightbox = new SimpleLightbox('.gallery a', { /* options */ });                 
+                   let lightbox = new SimpleLightbox('.gallery a', { captionDelay: 250 });                 
             
                         }
