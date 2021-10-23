@@ -9,6 +9,7 @@ galleryPictures.insertAdjacentHTML('beforeend', itemsMarkup);
 
 galleryPictures.addEventListener('click', onGalleryPicturesClick);
 
+
 function createItemsMarkup (galleryItems) {
     return galleryItems.map(({preview, original, description}) => {
         return `
@@ -27,25 +28,39 @@ function createItemsMarkup (galleryItems) {
     .join('');
         }
 
+
+        let instance = basicLightbox.create(
+            `<img src="" />`, {
+
+            onShow: instance => {
+                window.addEventListener('keydown', pressKey);
+            },
+            onClose: instance => {
+                window.removeEventListener('keydown', pressKey);
+            },
+        });
+
+        function pressKey(event) {
+                        if (event.code === 'Escape') {
+                instance.close();
+                          }
+        }
+
+       
 function onGalleryPicturesClick (evt) {
     evt.preventDefault();
         if (!evt.target.classList.contains("gallery__image")) {
         return;
            }
-          
-           const instance = basicLightbox.create(`
-    <img src="${evt.target.dataset.source}"/>
-    
-  `) 
 
- instance.show()
+          instance.element().querySelector('img').src = evt.target.dataset.source; 
+        instance.show();
 
- document.addEventListener("keydown", (event) => {
-    if (event.code === 'Escape') {
-        return instance.close()
-    }
-    });
-          
+        instance.element().querySelector('img').addEventListener("click", () => {
+            instance.close();
+        }, {once: true});
+                                       
 }
+
 
 
